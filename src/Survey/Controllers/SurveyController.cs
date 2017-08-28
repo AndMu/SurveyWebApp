@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using NLog;
 using ServiceStack.Redis;
+using Wikiled.Core.Utility.Arguments;
 using Wikiled.Survey.Data;
 using Wikiled.Survey.Helpers;
 
@@ -19,6 +20,7 @@ namespace Wikiled.Survey.Controllers
 
         public SurveyController(IRedisClientsManager cache)
         {
+            Guard.NotNull(() => cache, cache);
             this.cache = cache;
         }
 
@@ -26,7 +28,7 @@ namespace Wikiled.Survey.Controllers
         [HttpPost]
         public void Post([FromBody] SurveyData value)
         {
-            var ip = new IpResolve(HttpContext).GetRequestIP();
+            var ip = new IpResolve(HttpContext).GetRequestIp();
             logger.Debug("Saving data: {0}...", ip);
             Save(ip, value);
         }

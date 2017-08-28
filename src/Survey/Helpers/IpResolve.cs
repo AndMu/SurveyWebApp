@@ -14,7 +14,7 @@ namespace Wikiled.Survey.Helpers
             this.context = context;
         }
 
-        public string GetRequestIP(bool tryUseXForwardHeader = true)
+        public string GetRequestIp(bool tryUseXForwardHeader = true)
         {
             string ip = null;
 

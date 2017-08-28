@@ -1,5 +1,8 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting.WindowsServices;
 
 namespace Wikiled.Survey
 {
@@ -16,7 +19,15 @@ namespace Wikiled.Survey
                 .UseUrls("http://0.0.0.0:5000")
                 .Build();
 
-            host.Run();
+
+            if (Debugger.IsAttached || args.Contains("--debug"))
+            {
+                host.Run();
+            }
+            else
+            {
+                host.RunAsService();
+            }
         }
     }
 }
