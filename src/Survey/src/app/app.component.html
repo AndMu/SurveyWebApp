@@ -1,0 +1,78 @@
+﻿<H1>Please complete questionnaire</H1>
+
+
+<div class="survey-block">
+  <div class="card-block">
+    <label [for]="autocomplete">Please enter your <b>Post Code</b>: </label>
+
+    <kendo-autocomplete #autocomplete
+                        required
+                        [data]="data"
+                        [suggest]="true"
+                        [filterable]="true"
+                        (open)="onOpenPost($event)"
+                        (valueChange)="onValueChangePost($event)"
+                        (filterChange)="onFilterChangePost($event)"
+                        [valueField]="'postalCode'">
+    </kendo-autocomplete>
+  </div>
+  <div class="card-block">
+    <div class="row">
+      Your Local Authority: <b>{{selectedLocalAuthority}}</b>
+    </div>
+    <div class="row">
+      Your Selected Post Code: <b>{{selectedPostCode}}</b>
+    </div>
+  </div>
+  <div class="card-block" *ngIf="isBusy">
+    <md-progress-spinner class="example-margin"
+                         mode="indeterminate">
+    </md-progress-spinner>
+  </div>
+  <div class="card-block" *ngIf="neighbors.length > 0">
+    <form class="k-form" (submit)="onSubmit($event)" #survey="ngForm">
+      <fieldset *ngFor="let record of neighbors">
+        <legend><b>{{record.name}}</b></legend>
+        <div class="question include">
+          <label>I have heard about this area:</label>
+          <kendo-switch [(ngModel)]="record.active" [ngModelOptions]="{standalone: true}"></kendo-switch>
+        </div>
+        <div class="questions" *ngIf="record.active">
+          <div class="question one">
+            What would you guess the share of nonwhites is in the <b>{{record.name}}</b> Local Authority:
+          </div>
+          <div>
+            <label><b>{{record.ratingOne}}%</b></label>
+            <kendo-slider name="slider1" required [fixedTickWidth]="6" [min]="0" [max]="100" [smallStep]="1" [(ngModel)]="record.ratingOne" [ngModelOptions]="{standalone: true}"></kendo-slider>
+          </div>
+          <div *ngIf="!(record.ratingOne >= 0)" class="alert alert-danger">
+            Selection Required!
+          </div>
+          <div class="question two">
+            What would you guess the increase in share of nonwhites has been in the <b>{{record.name}}</b> below
+            during the 2001-2011 period? (Where 1 to 5 % minorities is an increase of 4 and 56 to 60% minorities is
+            also an increase of 4)
+          </div>
+          <div>
+            <label><b>{{record.ratingTwo}}%</b></label>
+            <kendo-slider required [min]="0" [max]="100" [fixedTickWidth]="6" [smallStep]="1" [(ngModel)]="record.ratingTwo" [ngModelOptions]="{standalone: true}"></kendo-slider>
+          </div>
+          <div *ngIf="!(record.ratingTwo >= 0)" class="alert alert-danger">
+            Selection Required!
+          </div>
+        </div>
+      </fieldset>
+      <div class="text-right">
+        <button [disabled]="!survey.form.valid" class="k-button k-primary">Submit</button>
+      </div>
+    </form>
+    <div *ngIf="isError" class="alert alert-danger">
+      <div>
+        Not all values selected!
+      </div>
+    </div>
+  </div>
+  <kendo-dialog title="Thank you for woting" *ngIf="hasVoted">
+    <p style="margin: 30px; text-align: center;">Your Vote recorded</p>
+  </kendo-dialog>
+</div>

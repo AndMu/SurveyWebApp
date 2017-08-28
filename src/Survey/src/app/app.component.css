@@ -1,0 +1,39 @@
+﻿.example-form {
+  width: 500px;
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+.card-block {
+  margin-top: -1px;
+  border: 1px solid lightblue;
+  padding: 10px;
+}
+
+.card-block .row {
+  padding: 10px;
+}
+
+.question{
+  padding: 10px;
+}
+
+.alert {
+  padding: 10px;
+  font-weight: bold;
+  color: red;
+}
+
+.questions
+{
+  border-top: 1px solid lightgray;
+  padding: 50px;
+}
+
+.question label {
+  float: left;
+  width: 200px;
+  padding-top: 5px
+}
